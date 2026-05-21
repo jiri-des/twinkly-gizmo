@@ -1,5 +1,43 @@
 import { useState, useEffect } from 'react';
 
+// Source: https://www.svgrepo.com/svg/45648/car-front-view (CC0 / public domain)
+// Original viewBox: 0 0 482.496 482.496
+const CAR_PATH =
+  'M465.725,174.758c-1.853-4.834-6.493-8.026-11.672-8.026h-26.768l-34.321-80.676' +
+  'c-1.962-4.612-6.49-7.606-11.502-7.606h-37.824c-0.192-0.005-0.386-0.005-0.58,0h-203.62' +
+  'c-0.194-0.005-0.387-0.005-0.58,0h-37.824c-5.012,0-9.54,2.994-11.502,7.606l-34.321,80.676' +
+  'H28.443c-5.178,0-9.819,3.192-11.672,8.026L0.828,216.356c-1.473,3.843-0.96,8.165,1.372,11.556' +
+  'c2.332,3.392,6.184,5.417,10.3,5.417h0.748l-9,40.756c-0.327,1.482-0.382,3.012-0.161,4.512' +
+  'l9.951,67.733c0.901,6.136,6.166,10.683,12.367,10.683h4.67v34.536c0,6.903,5.596,12.5,12.5,12.5' +
+  'h74.934c6.904,0,12.5-5.597,12.5-12.5v-34.534h220.478v34.534c0,6.903,5.596,12.5,12.5,12.5' +
+  'h74.935c6.904,0,12.5-5.597,12.5-12.5v-34.534h4.669c6.202,0,11.466-4.547,12.367-10.683' +
+  'l9.951-67.733c0.221-1.5,0.166-3.029-0.161-4.512l-9-40.756h0.748c4.116,0,7.968-2.026,10.3-5.417' +
+  's2.845-7.713,1.372-11.556L465.725,174.758z' +
+  'M148.043,103.45h186.41l26.049,75.087H121.994L148.043,103.45z' +
+  'M445.293,332.015h-6.372c-6.903,0-12.5,5.598-12.5,12.5v34.534h-49.935v-34.534' +
+  'c0-6.902-5.597-12.5-12.5-12.5H118.509c-6.904,0-12.5,5.598-12.5,12.5v34.534H56.075v-34.534' +
+  'c0-6.902-5.596-12.5-12.5-12.5h-6.372l-8.048-54.779l11.204-50.739l32.689-39.225' +
+  'c0.007-0.009,0.015-0.018,0.022-0.027l0.009-0.011c0.006-0.007,0.011-0.015,0.017-0.023' +
+  'c0.233-0.281,0.451-0.575,0.66-0.877c0.066-0.096,0.13-0.193,0.194-0.291' +
+  'c0.145-0.223,0.281-0.45,0.413-0.683c0.061-0.107,0.124-0.213,0.182-0.322' +
+  'c0.155-0.297,0.302-0.601,0.435-0.913L75,184.08c0.015-0.035,0.03-0.07,0.044-0.105' +
+  'l34.258-80.525h12.28l-28.964,83.49c-1.326,3.822-0.72,8.048,1.625,11.344' +
+  'c2.345,3.296,6.14,5.253,10.185,5.253h273.644c4.045,0,7.84-1.957,10.185-5.253' +
+  's2.95-7.522,1.625-11.344l-28.964-83.49h12.28l34.258,80.525' +
+  'c0.014,0.035,0.03,0.07,0.044,0.105l0.021,0.045c0.133,0.312,0.279,0.615,0.435,0.913' +
+  'c0.058,0.108,0.121,0.214,0.182,0.322c0.131,0.233,0.269,0.46,0.413,0.683' +
+  'c0.064,0.098,0.127,0.195,0.194,0.291c0.209,0.302,0.427,0.597,0.66,0.877' +
+  'c0.006,0.008,0.011,0.016,0.017,0.023l0.009,0.011c0.009,0.009,0.016,0.018,0.022,0.027' +
+  'l32.688,39.224l11.204,50.74L445.293,332.015z' +
+  'M163.338,284.25v13c0,6.902-5.597,12.5-12.5,12.5c-6.903,0-12.5-5.598-12.5-12.5v-0.5h-51' +
+  'v0.5c0,6.902-5.597,12.5-12.5,12.5c-6.903,0-12.5-5.598-12.5-12.5v-13' +
+  'c0-6.902,5.597-12.5,12.5-12.5h76C157.741,271.75,163.338,277.347,163.338,284.25z' +
+  'M420.158,284.25v13c0,6.902-5.598,12.5-12.5,12.5c-6.903,0-12.5-5.598-12.5-12.5v-0.5h-51' +
+  'v0.5c0,6.902-5.598,12.5-12.5,12.5c-6.903,0-12.5-5.598-12.5-12.5v-13' +
+  'c0-6.902,5.597-12.5,12.5-12.5h76C414.561,271.75,420.158,277.347,420.158,284.25z';
+
+const SRC = 482.496; // original SVG viewBox width = height
+
 export default function CarMask() {
   const [vp, setVp] = useState({ w: window.innerWidth, h: window.innerHeight });
 
@@ -11,89 +49,13 @@ export default function CarMask() {
 
   const { w, h } = vp;
 
-  // 1.2:1 aspect — sedan front is closer to square than widescreen
-  const cw = Math.min(w * 0.90, h * 0.55);
-  const ch = cw / 1.20;
-  const cx = w / 2;
-  const cy = h / 2;
+  // Scale the 482.496×482.496 source to fit the screen
+  const scale = Math.min(w * 0.90, h * 0.68) / SRC;
+  const tx = (w - SRC * scale) / 2;
+  const ty = (h - SRC * scale) / 2;
 
-  const px = (f) => cx + cw * f;
-  const py = (f) => cy + ch * f;
-  const pt = (fx, fy) => `${px(fx)},${py(fy)}`;
-
-  // ── Outer body silhouette ──────────────────────────────────────
-  // Proportions (% of half-extents):
-  //   Roof y=-0.50, windshield base y=0.00 (≈43% of total height)
-  //   Headlights y=0.05–0.30, bumper y=0.30–0.52
-  const body = [
-    `M${pt(-0.24, -0.50)}`,
-    `Q${pt(0, -0.58)} ${pt(0.24, -0.50)}`,   // roof arch
-    `L${pt(0.36, -0.30)}`,                     // right A-pillar upper
-    `L${pt(0.46, 0.00)}`,                      // right A-pillar base
-    `L${pt(0.50, 0.05)}`,                      // right body start
-    `L${pt(0.50, 0.30)}`,                      // right body lower
-    `L${pt(0.48, 0.40)}`,                      // right bumper shoulder
-    `L${pt(0.44, 0.48)}`,
-    `L${pt(0.28, 0.50)}`,
-    `L${pt(0, 0.52)}`,
-    `L${pt(-0.28, 0.50)}`,
-    `L${pt(-0.44, 0.48)}`,
-    `L${pt(-0.48, 0.40)}`,
-    `L${pt(-0.50, 0.30)}`,
-    `L${pt(-0.50, 0.05)}`,
-    `L${pt(-0.46, 0.00)}`,
-    `L${pt(-0.36, -0.30)}`,
-    'Z',
-  ].join(' ');
-
-  const overlay = `M0,0 H${w} V${h} H0 Z ${body}`;
-
-  // ── Windshield (large — ~43% of car height) ──
-  const windshield = [
-    `M${pt(-0.22, -0.46)}`,
-    `L${pt(0.22, -0.46)}`,
-    `L${pt(0.44, 0.00)}`,
-    `L${pt(-0.44, 0.00)}`,
-    'Z',
-  ].join(' ');
-
-  // ── Headlights (angular — inner top angled upward) ──
-  const hlL = [
-    `M${pt(-0.50, 0.05)}`,
-    `L${pt(-0.22, -0.03)}`,
-    `L${pt(-0.22, 0.30)}`,
-    `L${pt(-0.50, 0.30)}`,
-    'Z',
-  ].join(' ');
-
-  const hlR = [
-    `M${pt(0.50, 0.05)}`,
-    `L${pt(0.22, -0.03)}`,
-    `L${pt(0.22, 0.30)}`,
-    `L${pt(0.50, 0.30)}`,
-    'Z',
-  ].join(' ');
-
-  // ── Side mirrors ──
-  const mirL = [
-    `M${pt(-0.36, -0.28)}`,
-    `L${pt(-0.46, -0.24)}`,
-    `L${pt(-0.46, -0.14)}`,
-    `L${pt(-0.36, -0.17)}`,
-    'Z',
-  ].join(' ');
-
-  const mirR = [
-    `M${pt(0.36, -0.28)}`,
-    `L${pt(0.46, -0.24)}`,
-    `L${pt(0.46, -0.14)}`,
-    `L${pt(0.36, -0.17)}`,
-    'Z',
-  ].join(' ');
-
-  const sw = Math.max(1.5, cw * 0.0050);
-  const sc = 'rgba(255,255,255,0.82)';
-  const sc2 = 'rgba(255,255,255,0.52)';
+  // Stroke width in source coordinates (stays visually consistent across scales)
+  const sw = 2.5 / scale;
 
   return (
     <svg
@@ -106,38 +68,29 @@ export default function CarMask() {
         pointerEvents: 'none',
       }}
     >
-      {/* Dark outside, clear car interior */}
-      <path fillRule="evenodd" fill="rgba(0,0,0,0.50)" d={overlay} />
+      <defs>
+        {/* White = show dark overlay, Black = transparent (camera visible) */}
+        <mask id="car-cutout">
+          <rect width={w} height={h} fill="white" />
+          <g transform={`translate(${tx},${ty}) scale(${scale})`}>
+            <path d={CAR_PATH} fill="black" />
+          </g>
+        </mask>
+      </defs>
 
-      {/* Car outer border */}
-      <path fill="none" stroke={sc} strokeWidth={sw} d={body} />
+      {/* Dark outside the car, transparent inside */}
+      <rect width={w} height={h} fill="rgba(0,0,0,0.52)" mask="url(#car-cutout)" />
 
-      {/* Windshield */}
-      <path fill="none" stroke={sc} strokeWidth={sw} d={windshield} />
-
-      {/* Headlights */}
-      <path fill="none" stroke={sc} strokeWidth={sw} d={hlL} />
-      <path fill="none" stroke={sc} strokeWidth={sw} d={hlR} />
-
-      {/* Headlight / bumper separator */}
-      <line stroke={sc2} strokeWidth={sw * 0.65}
-        x1={px(-0.50)} y1={py(0.30)} x2={px(0.50)} y2={py(0.30)} />
-
-      {/* Grille lines (3×) */}
-      {[0.37, 0.43, 0.49].map((dy, i) => (
-        <line key={i} stroke={sc} strokeWidth={sw * 0.85}
-          x1={px(-0.22)} y1={py(dy)} x2={px(0.22)} y2={py(dy)} />
-      ))}
-
-      {/* Lower corner fog lights */}
-      <rect fill="none" stroke={sc2} strokeWidth={sw * 0.65} rx={2}
-        x={px(-0.48)} y={py(0.36)} width={cw * 0.13} height={ch * 0.13} />
-      <rect fill="none" stroke={sc2} strokeWidth={sw * 0.65} rx={2}
-        x={px(0.35)} y={py(0.36)} width={cw * 0.13} height={ch * 0.13} />
-
-      {/* Side mirrors */}
-      <path fill="none" stroke={sc} strokeWidth={sw} d={mirL} />
-      <path fill="none" stroke={sc} strokeWidth={sw} d={mirR} />
+      {/* White car outline on top */}
+      <g transform={`translate(${tx},${ty}) scale(${scale})`}>
+        <path
+          d={CAR_PATH}
+          fill="none"
+          stroke="rgba(255,255,255,0.85)"
+          strokeWidth={sw}
+          strokeLinejoin="round"
+        />
+      </g>
     </svg>
   );
 }
