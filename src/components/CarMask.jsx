@@ -1,20 +1,10 @@
-export default function CarMask() {
-  const overlayStyle = {
-    position: 'absolute',
-    inset: 0,
-    background: 'rgba(0,0,0,0.48)',
-    zIndex: 5,
-    pointerEvents: 'none',
-    maskImage: "url('/car-silhouette.svg')",
-    maskSize: '95% auto',
-    maskPosition: 'center',
-    maskRepeat: 'no-repeat',
-    WebkitMaskImage: "url('/car-silhouette.svg')",
-    WebkitMaskSize: '95% auto',
-    WebkitMaskPosition: 'center',
-    WebkitMaskRepeat: 'no-repeat',
-  };
+const CAR_HOLE = `M 142.3 379.56 C 145.55 377.83 148.61 374.38 149.89 370.98 C 150.73 368.66 150.88 367.13 150.88 360.58 L 150.88 352.94 L 154.97 353.24 C 179.82 355.16 245.05 356.99 288.19 356.99 C 329.11 356.99 395.04 355.07 416.43 353.24 L 419.93 352.94 L 420.18 360.98 C 420.43 367.69 420.62 369.46 421.46 371.38 C 422.84 374.49 426.09 377.99 429.2 379.56 L 431.67 380.89 L 457.31 380.89 L 482.95 380.89 L 485.07 379.76 C 488.32 378.03 490.94 375.42 492.42 372.36 L 493.8 369.55 L 493.8 298.55 C 493.8 232.04 493.75 227.3 492.91 223.46 C 489.71 208.52 482.41 199.1 465.05 187.47 L 457.95 182.69 L 469.44 182.44 C 482.21 182.09 483.34 181.9 487.63 178.74 C 493.3 174.6 495.67 167.45 493.84 160.25 C 491.77 152.26 486.3 147.87 476.29 146.2 C 473.73 145.76 469.49 144.87 466.92 144.18 C 461.05 142.7 456.12 142.6 452.42 143.98 C 447.24 145.95 443.15 150.93 442.41 156.36 L 442.02 159.02 L 439.8 159.17 L 437.58 159.32 L 435.46 152.81 C 429.64 135.11 418.84 113.37 411.4 104.39 C 406.81 98.77 400.65 94.53 393.85 92.21 C 387.79 90.14 374.57 88.71 344.15 86.93 C 325.56 85.85 253.82 85.65 234.69 86.68 C 200.92 88.45 184.5 89.93 178.68 91.76 C 172.22 93.73 166.25 97.53 161.57 102.51 C 154.03 110.6 142.64 133.08 136.08 152.85 L 133.71 160 L 131.49 160.15 L 129.32 160.3 L 128.97 157.59 C 128.33 152.07 124.93 147.09 120.05 144.57 C 116.45 142.75 111.03 142.5 105.46 143.98 C 100.87 145.21 99.05 145.61 93.77 146.45 C 86.57 147.63 81.25 151.38 78.44 157.3 C 77.4 159.57 77.16 160.7 77.16 164.45 C 77.16 170.76 79.33 175.45 83.82 178.75 C 88.06 181.86 89.24 182.1 102.06 182.4 L 113.65 182.7 L 107.49 186.84 C 89.25 199.12 82.89 206.71 78.94 220.91 L 77.66 225.59 L 77.51 296.29 C 77.36 373.4 77.26 369.71 80.12 374.24 C 81.89 377.1 85.3 379.61 88.75 380.7 C 89.44 380.9 101.18 381.05 114.88 381 L 139.78 380.9 L 142.29 379.57 Z`;
 
+// Large background rect + car hole via evenodd. SVG viewBox matches car-mask.svg
+// so paths align exactly. overflow="visible" lets the rect bleed to full screen.
+const OVERLAY_PATH = `M -10000 -10000 L 20000 -10000 L 20000 20000 L -10000 20000 Z ${CAR_HOLE}`;
+
+export default function CarMask() {
   const imgStyle = {
     position: 'absolute',
     width: '95%',
@@ -32,7 +22,21 @@ export default function CarMask() {
 
   return (
     <>
-      <div style={overlayStyle} />
+      <svg
+        viewBox="0 0 568 442"
+        preserveAspectRatio="xMidYMid meet"
+        overflow="visible"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 5,
+          pointerEvents: 'none',
+        }}
+      >
+        <path d={OVERLAY_PATH} fill="rgba(0,0,0,0.48)" fillRule="evenodd" />
+      </svg>
       <img src="/car-mask.svg" alt="" style={imgStyle} />
     </>
   );
