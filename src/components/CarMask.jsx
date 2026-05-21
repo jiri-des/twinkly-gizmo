@@ -1,27 +1,24 @@
-// Car mask overlay using traced SVG from Vectorizer.io.
-// filter:invert(1) flips black→white, white→black.
-// mix-blend-mode:screen makes black transparent → result: white car lines over camera.
 export default function CarMask() {
-  // SVG viewBox is 568×442 (aspect 1.284:1, landscape)
-  const style = {
+  const overlayStyle = {
     position: 'absolute',
     inset: 0,
-    width: '100%',
-    height: '100%',
+    background: 'rgba(0,0,0,0.48)',
     zIndex: 5,
     pointerEvents: 'none',
-  };
-
-  const overlayStyle = {
-    ...style,
-    background: 'rgba(0,0,0,0.42)',
+    maskImage: "url('/car-silhouette.svg')",
+    maskSize: '95% auto',
+    maskPosition: 'center',
+    maskRepeat: 'no-repeat',
+    WebkitMaskImage: "url('/car-silhouette.svg')",
+    WebkitMaskSize: '95% auto',
+    WebkitMaskPosition: 'center',
+    WebkitMaskRepeat: 'no-repeat',
   };
 
   const imgStyle = {
     position: 'absolute',
-    // Keep SVG aspect ratio, fit within the camera view with padding
-    width: '90%',
-    maxHeight: '65%',
+    width: '95%',
+    maxHeight: '72%',
     objectFit: 'contain',
     left: '50%',
     top: '50%',
