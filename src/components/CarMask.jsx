@@ -9,12 +9,10 @@ export default function CarMask() {
     maskSize: '95% auto',
     maskPosition: 'center',
     maskRepeat: 'no-repeat',
-    maskMode: 'luminance',
     WebkitMaskImage: "url('/car-silhouette.svg')",
     WebkitMaskSize: '95% auto',
     WebkitMaskPosition: 'center',
     WebkitMaskRepeat: 'no-repeat',
-    WebkitMaskMode: 'luminance',
   };
 
   const imgStyle = {
