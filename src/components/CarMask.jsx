@@ -1,96 +1,42 @@
-import { useState, useEffect } from 'react';
-
-// Source: https://www.svgrepo.com/svg/45648/car-front-view (CC0 / public domain)
-// Original viewBox: 0 0 482.496 482.496
-const CAR_PATH =
-  'M465.725,174.758c-1.853-4.834-6.493-8.026-11.672-8.026h-26.768l-34.321-80.676' +
-  'c-1.962-4.612-6.49-7.606-11.502-7.606h-37.824c-0.192-0.005-0.386-0.005-0.58,0h-203.62' +
-  'c-0.194-0.005-0.387-0.005-0.58,0h-37.824c-5.012,0-9.54,2.994-11.502,7.606l-34.321,80.676' +
-  'H28.443c-5.178,0-9.819,3.192-11.672,8.026L0.828,216.356c-1.473,3.843-0.96,8.165,1.372,11.556' +
-  'c2.332,3.392,6.184,5.417,10.3,5.417h0.748l-9,40.756c-0.327,1.482-0.382,3.012-0.161,4.512' +
-  'l9.951,67.733c0.901,6.136,6.166,10.683,12.367,10.683h4.67v34.536c0,6.903,5.596,12.5,12.5,12.5' +
-  'h74.934c6.904,0,12.5-5.597,12.5-12.5v-34.534h220.478v34.534c0,6.903,5.596,12.5,12.5,12.5' +
-  'h74.935c6.904,0,12.5-5.597,12.5-12.5v-34.534h4.669c6.202,0,11.466-4.547,12.367-10.683' +
-  'l9.951-67.733c0.221-1.5,0.166-3.029-0.161-4.512l-9-40.756h0.748c4.116,0,7.968-2.026,10.3-5.417' +
-  's2.845-7.713,1.372-11.556L465.725,174.758z' +
-  'M148.043,103.45h186.41l26.049,75.087H121.994L148.043,103.45z' +
-  'M445.293,332.015h-6.372c-6.903,0-12.5,5.598-12.5,12.5v34.534h-49.935v-34.534' +
-  'c0-6.902-5.597-12.5-12.5-12.5H118.509c-6.904,0-12.5,5.598-12.5,12.5v34.534H56.075v-34.534' +
-  'c0-6.902-5.596-12.5-12.5-12.5h-6.372l-8.048-54.779l11.204-50.739l32.689-39.225' +
-  'c0.007-0.009,0.015-0.018,0.022-0.027l0.009-0.011c0.006-0.007,0.011-0.015,0.017-0.023' +
-  'c0.233-0.281,0.451-0.575,0.66-0.877c0.066-0.096,0.13-0.193,0.194-0.291' +
-  'c0.145-0.223,0.281-0.45,0.413-0.683c0.061-0.107,0.124-0.213,0.182-0.322' +
-  'c0.155-0.297,0.302-0.601,0.435-0.913L75,184.08c0.015-0.035,0.03-0.07,0.044-0.105' +
-  'l34.258-80.525h12.28l-28.964,83.49c-1.326,3.822-0.72,8.048,1.625,11.344' +
-  'c2.345,3.296,6.14,5.253,10.185,5.253h273.644c4.045,0,7.84-1.957,10.185-5.253' +
-  's2.95-7.522,1.625-11.344l-28.964-83.49h12.28l34.258,80.525' +
-  'c0.014,0.035,0.03,0.07,0.044,0.105l0.021,0.045c0.133,0.312,0.279,0.615,0.435,0.913' +
-  'c0.058,0.108,0.121,0.214,0.182,0.322c0.131,0.233,0.269,0.46,0.413,0.683' +
-  'c0.064,0.098,0.127,0.195,0.194,0.291c0.209,0.302,0.427,0.597,0.66,0.877' +
-  'c0.006,0.008,0.011,0.016,0.017,0.023l0.009,0.011c0.009,0.009,0.016,0.018,0.022,0.027' +
-  'l32.688,39.224l11.204,50.74L445.293,332.015z' +
-  'M163.338,284.25v13c0,6.902-5.597,12.5-12.5,12.5c-6.903,0-12.5-5.598-12.5-12.5v-0.5h-51' +
-  'v0.5c0,6.902-5.597,12.5-12.5,12.5c-6.903,0-12.5-5.598-12.5-12.5v-13' +
-  'c0-6.902,5.597-12.5,12.5-12.5h76C157.741,271.75,163.338,277.347,163.338,284.25z' +
-  'M420.158,284.25v13c0,6.902-5.598,12.5-12.5,12.5c-6.903,0-12.5-5.598-12.5-12.5v-0.5h-51' +
-  'v0.5c0,6.902-5.598,12.5-12.5,12.5c-6.903,0-12.5-5.598-12.5-12.5v-13' +
-  'c0-6.902,5.597-12.5,12.5-12.5h76C414.561,271.75,420.158,277.347,420.158,284.25z';
-
-const SRC = 482.496; // original SVG viewBox width = height
-
+// Car mask overlay using traced SVG from Vectorizer.io.
+// filter:invert(1) flips black→white, white→black.
+// mix-blend-mode:screen makes black transparent → result: white car lines over camera.
 export default function CarMask() {
-  const [vp, setVp] = useState({ w: window.innerWidth, h: window.innerHeight });
+  // SVG viewBox is 568×442 (aspect 1.284:1, landscape)
+  const style = {
+    position: 'absolute',
+    inset: 0,
+    width: '100%',
+    height: '100%',
+    zIndex: 5,
+    pointerEvents: 'none',
+  };
 
-  useEffect(() => {
-    const onResize = () => setVp({ w: window.innerWidth, h: window.innerHeight });
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
+  const overlayStyle = {
+    ...style,
+    background: 'rgba(0,0,0,0.42)',
+  };
 
-  const { w, h } = vp;
-
-  // Scale the 482.496×482.496 source to fit the screen
-  const scale = Math.min(w * 0.90, h * 0.68) / SRC;
-  const tx = (w - SRC * scale) / 2;
-  const ty = (h - SRC * scale) / 2;
-
-  // Stroke width in source coordinates (stays visually consistent across scales)
-  const sw = 2.5 / scale;
+  const imgStyle = {
+    position: 'absolute',
+    // Keep SVG aspect ratio, fit within the camera view with padding
+    width: '90%',
+    maxHeight: '65%',
+    objectFit: 'contain',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+    zIndex: 6,
+    pointerEvents: 'none',
+    filter: 'invert(1)',
+    mixBlendMode: 'screen',
+    opacity: 0.92,
+  };
 
   return (
-    <svg
-      style={{
-        position: 'absolute',
-        inset: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: 5,
-        pointerEvents: 'none',
-      }}
-    >
-      <defs>
-        {/* White = show dark overlay, Black = transparent (camera visible) */}
-        <mask id="car-cutout">
-          <rect width={w} height={h} fill="white" />
-          <g transform={`translate(${tx},${ty}) scale(${scale})`}>
-            <path d={CAR_PATH} fill="black" />
-          </g>
-        </mask>
-      </defs>
-
-      {/* Dark outside the car, transparent inside */}
-      <rect width={w} height={h} fill="rgba(0,0,0,0.52)" mask="url(#car-cutout)" />
-
-      {/* White car outline on top */}
-      <g transform={`translate(${tx},${ty}) scale(${scale})`}>
-        <path
-          d={CAR_PATH}
-          fill="none"
-          stroke="rgba(255,255,255,0.85)"
-          strokeWidth={sw}
-          strokeLinejoin="round"
-        />
-      </g>
-    </svg>
+    <>
+      <div style={overlayStyle} />
+      <img src="/car-mask.svg" alt="" style={imgStyle} />
+    </>
   );
 }
