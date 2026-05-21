@@ -26,13 +26,13 @@ export default function CarMask() {
       >
         <path d={OVERLAY_PATH} fill="rgba(0,0,0,0.48)" fillRule="evenodd" />
       </svg>
-      {/* Car outline — same viewBox ensures pixel-perfect alignment with hole */}
+      {/* Car outline — inline stroke avoids iOS Safari filter/blend issues with <image> */}
       <svg
         viewBox={VIEWBOX}
         preserveAspectRatio="xMidYMid meet"
-        style={{ ...BASE_STYLE, zIndex: 6, mixBlendMode: 'screen', opacity: 0.92 }}
+        style={{ ...BASE_STYLE, zIndex: 6 }}
       >
-        <image href="/car-mask.svg" x="0" y="0" width="568" height="442" style={{ filter: 'invert(1)' }} />
+        <path d={CAR_HOLE} fill="none" stroke="rgba(255,255,255,0.85)" strokeWidth="3.5" />
       </svg>
     </>
   );
