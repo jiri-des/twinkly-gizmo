@@ -88,26 +88,7 @@ html, body, #root {
   pointer-events: none;
 }
 
-/* Mask overlay */
-
-.mask-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 5;
-  pointer-events: none;
-}
-
-.mask-rect {
-  width: 65%;
-  aspect-ratio: 3 / 2;
-  border: 2px solid rgba(255, 255, 255, 0.85);
-  border-radius: 6px;
-  /* darken everything outside the rect */
-  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.45);
-}
+/* Car mask is rendered as an inline SVG via CarMask.jsx */
 
 /* Camera controls */
 

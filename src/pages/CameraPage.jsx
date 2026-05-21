@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePhotos } from '../context/PhotoContext';
+import CarMask from '../components/CarMask';
 
 export default function CameraPage() {
   const videoRef = useRef(null);
@@ -70,9 +71,7 @@ export default function CameraPage() {
 
       {flash && <div className="camera-flash" />}
 
-      <div className="mask-overlay">
-        <div className="mask-rect" />
-      </div>
+      <CarMask />
 
       <div className="camera-controls">
         <button
