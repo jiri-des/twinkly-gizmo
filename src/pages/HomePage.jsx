@@ -6,7 +6,7 @@ export default function HomePage() {
   return (
     <div className="page home-page">
       <div className="home-content">
-        <h1 className="app-title">Twinkly Gizmo</h1>
+        <h1 className="app-title">Test Masky</h1>
         <p className="app-subtitle">Fotoaplikace pro mobilní prohlížeč</p>
         <button className="btn btn-primary" onClick={() => navigate('/camera')}>
           Začít fotit
